@@ -1,0 +1,81 @@
+##############################################################################
+#
+#  (C) Copyright 2015 - 2016
+#  Texas Instruments Incorporated, <www.ti.com>
+#
+#  Venkateswara Rao Mandela <venkat.mandela@ti.com>
+#
+#  SPDX-License-Identifier:	BSD-3-Clause
+#
+##############################################################################
+#
+# This file can be used to control the location from which MLO is
+# read on a DRA7xx EVM configured in peripheral boot mode
+#
+# The syntax of the file is very straight forward
+#
+# 1) All line starting with # are treated as comments and ignored.
+#
+# 2) The first non-comment line must be of the following format
+#
+# <use peripheral boot mode>:<boot media>
+#
+# "use peripheral boot mode" is either 0 or 1.
+#
+# If it is 0, user is expected to specify the boot media from which MLO
+# should be read according to the numbers defined in TRM. They are
+# reproduced below for convenience.
+#
+#    [1] = "XIP",
+#    [2] = "XIP with wait monitoring",
+#    [3] = "NAND",
+#    [5] = "SD Card",
+#    [6] = "eMMC boot partition",
+#    [7] = "eMMC",
+#    [9] = "SATA",
+#    [10] = "QSPI_1",
+#    [11] = "QSPI_4",
+#    [67] = "UART",
+#    [69] = "USB(from internal transceiver)"
+#
+# If "use peripheral boot mode" is 1, the rest of the first line is ignored.
+# The boot media specified is a dont care input. The tool now expects the second
+# line to contain the location of a binary which is transferred to DRA7xx via USB.
+#
+# 3) If "use peripheral boot mode" is 1, the second non-comment line should point to
+# a valid file that is transferred to DRA7xx over USB and used as the first stage boot
+# loader.
+#
+# Important points
+#
+# a) The binary is loaded to 0x40300000 as per the TRM.
+# b) The binary is expected to be in the .bin format. For MLO, you need to point
+# to u-boot-spl.bin and **not** the MLO.
+# c) The size of the binary should be less than 504 KB.
+# 
+##############################################################################
+#
+#
+# Examples
+#
+# To use the existing MLO on SD the card
+0:5
+/home/user/u-boot/spl/u-boot-spl.bin
+# The second line above is a dont care input
+# but needs to be present for parsing to succeed.
+#
+# To load a new MLO from PC via USB
+# Comment all the above lines.
+# uncomment the two lines below
+#1:5
+#/home/user/u-boot/spl/u-boot-spl.bin
+#
+# The second portion of the first line (:5) is dont care but needs to be present
+# for the parsing to succeed.
+#
+################## eMMC ######################################################
+#To use the existing MLO on eMMC - uncomment the line below
+# Comment all the above lines.
+# uncomment the two lines below
+#0:6
+#/home/user/u-boot/spl/u-boot-spl.bin
