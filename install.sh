@@ -24,7 +24,7 @@ else
 fi
 
 echo "Setting up udev rules"
-cat <<EOF | sudo tee /etc/udev/rules.d/72-vayu-usbboot.rules
+cat <<EOF | sudo tee /etc/udev/rules.d/72-dra7xx-usbboot.rules
 SUBSYSTEM=="usb",ATTRS{idVendor}=="0451",ATTRS{idProduct}=="d013",MODE:="777",RUN+="$BOOTSWITCH_PATH"
 SUBSYSTEM=="usb",ATTRS{idVendor}=="0451",ATTRS{idProduct}=="d014",MODE:="777",RUN+="$BOOTSWITCH_PATH"
 EOF
