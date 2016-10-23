@@ -27,7 +27,7 @@ Usage
 =====
 
 
-1. Clone the `bootswitch` git repository. Run `./install.sh` inside the cloned repository.
+1. Clone the `dra7xx-bootswitch` git repository. Run `./install.sh` inside the cloned repository.
 
     ~~~{.bash}
     host $ git clone git://git.ti.com/glsdk/dra7xx-bootswitch.git
@@ -56,7 +56,7 @@ Usage
 
 3. Connect a USB cable from the boot USB port(P2) to your PC.
 
-1. Reboot the EVM. In peripheral boot mode, the EVM waits for a
+4. Reboot the EVM. In peripheral boot mode, the EVM waits for a
     command from the PC to determine how to obtain `MLO`. `bootswitch`
     binary provides this command to the EVM.
 
@@ -133,3 +133,10 @@ Debug traces
 
 The tool generates debug output in `/tmp/bootswitch_log.txt`. Please
 use this for debugging any issues.
+
+Support
+=======
+
+For support, please post any questions to
+
+<https://e2e.ti.com/support/arm/automotive_processors/f/1020>
