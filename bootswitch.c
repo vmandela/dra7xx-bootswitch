@@ -68,6 +68,8 @@ static ssize_t get_next_valid_line(char **lineptr, size_t *line_len,
 	ssize_t retval=0;
 	int linefound=0;
 	size_t inp_len=*line_len;
+	char *ret_str;
+
 	linefound=0;
 	while((!feof(fp)) && (linefound==0) &&  (retval!=-1)){
 
@@ -75,8 +77,9 @@ static ssize_t get_next_valid_line(char **lineptr, size_t *line_len,
 
 		*line_len=inp_len;
 		memset(*lineptr,0x00,inp_len);
-		retval = getline(lineptr,line_len,fp);
-		if((*lineptr)[0]=='#')
+		ret_str = fgets(*lineptr, inp_len, fp);
+
+		if((ret_str == NULL) || ((*lineptr)[0] == '#'))
 			linefound=0;
 		else
 			linefound=1;
