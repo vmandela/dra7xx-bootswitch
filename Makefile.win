@@ -1,0 +1,11 @@
+#
+#  (C) Copyright 2015 - 2017
+#  Texas Instruments Incorporated, <www.ti.com>
+#
+#  Venkateswara Rao Mandela <venkat.mandela@ti.com>
+#
+#  SPDX-License-Identifier:	BSD-3-Clause
+#
+
+bootswitch: bootswitch.c
+	gcc bootswitch.c -I ./libusb/include/libusb-1.0 -L ./libusb/MinGW64/static -lusb-1.0 -o bootswitch.exe

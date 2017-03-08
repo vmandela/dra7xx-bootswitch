@@ -1,5 +1,5 @@
 #
-#  (C) Copyright 2015 - 2016
+#  (C) Copyright 2015 - 2017
 #  Texas Instruments Incorporated, <www.ti.com>
 #
 #  Venkateswara Rao Mandela <venkat.mandela@ti.com>

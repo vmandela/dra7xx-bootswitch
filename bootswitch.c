@@ -15,9 +15,22 @@
 #ifndef _BSD_SOURCE
 #define _BSD_SOURCE
 #endif
-#include <endian.h>
 
+#ifndef WIN32
+#include <endian.h>
+#else
+
+#define htole32(a) (a)
+#endif
+
+#ifndef WIN32
 char *filename="/tmp/bootsetting.txt";
+char *log_filename="/tmp/bootswitch_log.txt";
+#else
+char *filename="C:\\temp\\bootsetting.txt";
+char *log_filename="C:\\temp\\bootswitch_log.txt";
+#endif
+
 FILE *fp_log = NULL;
 #define DEF_BOOT_MODE 5 /* SD Card */
 #define MLO_MAX_LEN (2048)
@@ -177,7 +190,7 @@ int main(int argc, char *argv[])
 		}
 	}
 
-	fp_log = fopen("/tmp/bootswitch_log.txt","a");
+	fp_log = fopen(log_filename, "a");
 	if (fp_log == NULL) {
 		fprintf(stderr,"Unable to open log file\n");
 		fprintf(stderr,"Using stderr for logging\n");
