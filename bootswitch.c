@@ -21,6 +21,9 @@ char *filename="/tmp/bootsetting.txt";
 FILE *fp_log = NULL;
 #define DEF_BOOT_MODE 5 /* SD Card */
 #define MLO_MAX_LEN (2048)
+
+#define MAX_RETRIES (10)
+
 char mlo_name[MLO_MAX_LEN];
 
 char *boot_modes[] =
@@ -157,6 +160,7 @@ int main(int argc, char *argv[])
 	size_t fread_cnt=0;
 	unsigned int tmp_int;
 	int c;
+	int i = 0;
 
 	memset(mlo_name,0x00,MLO_MAX_LEN);
 
@@ -191,19 +195,26 @@ int main(int argc, char *argv[])
 		goto total_fail;
 	}
 
-	//Look for DRA74x (J6)
-	devh = libusb_open_device_with_vid_pid(NULL,0x451,0xd013);
+	do {
+		//Look for DRA74x (J6)
+		devh = libusb_open_device_with_vid_pid(NULL,0x451,0xd013);
 
-	//Look for DRA72x (J6 Eco)
-	if(devh==NULL)
-		devh = libusb_open_device_with_vid_pid(NULL,0x451,0xd014);
-	if(devh==NULL) {
-		fprintf(fp_log,"Unable to find Vayu EVM\n");
-		fflush(fp_log);
+		//Look for DRA72x/DRA71x (J6 Eco/J6 Entry)
+		if(devh==NULL)
+			devh = libusb_open_device_with_vid_pid(NULL,0x451,0xd014);
+		if(devh==NULL) {
+			fprintf(fp_log,"Unable to find Vayu EVM\n");
+			fflush(fp_log);
+		} else {
+			fprintf(fp_log,"Opened device\n");
+		}
+		i++;
+		if (devh == NULL)
+			sleep(1);
+	} while ((i < MAX_RETRIES) && (devh == NULL));
+    
+	if(devh == NULL)
 		goto cleanup;
-	} else {
-		fprintf(fp_log,"Opened device\n");
-	}
 
 	if(libusb_kernel_driver_active(devh,0)){
 		fprintf(fp_log,"kernel driver active\n");
