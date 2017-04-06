@@ -134,6 +134,24 @@ Debug traces
 The tool generates debug output in `/tmp/bootswitch_log.txt`. Please
 use this for debugging any issues.
 
+Miscellaneous
+=============
+
+As the configuration settings are stored in `/tmp/bootsetting.txt`, it
+might be necessary to recreate the file after a host PC reboot. You
+can add a snippet similar to the one below to `.bashrc` to recreate
+the file automatically.
+
+~~~{.bash}
+if [ ! -f /tmp/bootsetting.txt ]; then
+    echo "Setting up DFU Boot"
+    cat <<EOF > /tmp/bootsetting.txt
+1:5
+$HOME/u-boot/spl/u-boot-spl.bin
+EOF
+fi
+~~~
+
 Usage on Windows
 ================
 
