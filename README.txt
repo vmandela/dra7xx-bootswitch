@@ -1,7 +1,7 @@
 ---
 title: DRA7xx Bootswitch User Guide
-version: 1.0
-date: 18 October 2016
+version: 1.1
+date: 27 July 2017
 ---
 
 Purpose
@@ -20,7 +20,7 @@ well.
 
 This tool runs on Linux and Windows. Linux installation and usage
 instructions follow. For Windows usage instructions, please refer to
-the section [Usage on Windows].
+the file `README.win.txt`.
 
 Please refer to manifest.html for license information.
 
@@ -56,7 +56,7 @@ Usage
 
 3. Connect a USB cable from the boot USB port(P2) to your PC.
 
-4. Reboot the EVM. In peripheral boot mode, the EVM waits for a
+4. Power on/Reboot the EVM. In peripheral boot mode, the EVM waits for a
     command from the PC to determine how to obtain `MLO`. `bootswitch`
     binary provides this command to the EVM.
 
@@ -116,6 +116,9 @@ value after `:` on the first line is a dont care when transferring MLO
 from PC. Please note that the binary to be supplied is
 `u-boot-spl.bin` and not `MLO`.
 
+Reboot the EVM and observe it booting with the first stage boot loader
+binary supplied.
+
 Important points
 ----------------
 
@@ -152,80 +155,12 @@ EOF
 fi
 ~~~
 
-Usage on Windows
-================
-
-Building the tool
------------------
-
-1. Download the latest `libusb` windows binaries from <http://libusb.info/>.
-
-1. Extract the files into a folder called `libusb` underneath the
-`dra7xx-bootswitch` source directory. At the end of this operation,
-the below paths must be present under `dra7xx-bootswitch` directory.
-
-    1. `./libusb/include/libusb-1.0`
-    2. `./libusb/MinGW64/static`
-
-1. Install `MinGW64` compiler chain from sourceforge. Navigate to
-<https://sourceforge.net/projects/mingw-w64/files/> and use the online
-installer to install the tool chain.
-
-1. Ensure `gcc` and `mingw32-make` installed in the above step are
-available from windows path.
-
-1. Run the below command to build the tool.
-
-    ~~~
-    mingw32-make -f Makefile.win
-    ~~~
-
-USB Driver setup
-----------------
-
-To ensure that the EVM can be accessed using libusb, drivers need to
-be installed correctly.
-
-1. Download `zadig` from <http://zadig.akeo.ie/>
-
-2. Run `zadig`.
-
-3. Place the DRA7xx EVM in USB peripheral boot mode.
-
-    ~~~
-    SYSBOOT[5:0] = 0b010000.
-    ~~~
-
-4. Connect a USB cable from the boot USB port(P2) to your PC.
-
-5. Reboot the EVM.
-
-6. The zadig window will show the name **VAYU** briefly. Click the
-"Install Driver" button as soon as the name is displayed. If the UI
-does not indicate the driver is installed successfully, repeat steps
-5 and 6. You may want to open "Device manager" and uninstall the
-"VAYU" device before trying again.
-
-
-Running the tool
-----------------
-
-Instructions to run the tool are the same as on Linux except for the change in config file paths.
-
-1. Configuration file is now expected at `C:\temp\bootsetting.txt`
-2. Log file is now stored at `C:\temp\bootswitch_log.txt`
-
-Windows testing was done with laptop running Windows 10, using
-libusb-1.0.21 and MinGW GCC version `6.3.0
-x86_64-posix-seh-rev1`.
-
-This tool was originally intended to be used from a udev script on
-Linux. As a result, all the logs are stored in the log file. Please
-review the log if there are any issues.
-
 Support
 =======
 
 For support, please post any questions to
 
 <https://e2e.ti.com/support/arm/automotive_processors/f/1020>
+
+Please review the log file at `/tmp/bootswitch_log.txt` for any
+pointers.
