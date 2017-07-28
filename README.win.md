@@ -216,10 +216,12 @@ Transferring MLO successful 0/113248
 Important points
 ----------------
 
- a) The binary is loaded to 0x40300000 as per the TRM.
- b) The binary is expected to be in the .bin format. For MLO, you need to point
- to u-boot-spl.bin and **not** the MLO.
- c) The size of the binary should be less than 504 KB.
+a) The binary is loaded to 0x40300000 as per the TRM.
+
+b) The binary is expected to be in the .bin format. For MLO, you need
+to point to u-boot-spl.bin and **not** the MLO.
+
+c) The size of the binary should be less than 504 KB.
 
 For more information, please refer to the documentation in
 `bootsetting.txt` in the `bootswitch` git repository.
