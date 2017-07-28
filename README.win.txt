@@ -29,7 +29,17 @@ Usage
 
 1. Clone the `dra7xx-bootswitch` git repository.
 
+	1. Git can be installed from <https://git-scm.com/download/win>
+	with all the default options.
+
+	2. Clone the repoisitory by running the below command
+		
+		~~~
+		C:\ti> git clone git://git.ti.com/glsdk/dra7xx-bootswitch.git
+		~~~
+
 2. Download the latest `libusb` windows binaries from <http://libusb.info/>.
+The instructions in this document were tested with libusb-1.0.21.
 
 3. Extract the files into a folder called `libusb` underneath the
 `dra7xx-bootswitch` source directory. At the end of this operation,
@@ -40,16 +50,44 @@ the below paths must be present under `dra7xx-bootswitch` directory.
 
 4. Install `MinGW64` compiler chain from sourceforge. Navigate to
 <https://sourceforge.net/projects/mingw-w64/files/> and use the online
-installer to install the tool chain.
+installer to install the tool chain. The instructions in this document 
+were tested with MinGW W64 GCC version `6.3.0 x86_64-posix-seh-rev1`.
 
 5. Ensure `gcc` and `mingw32-make` installed in the above step are
-available from windows path.
+available from windows path. The exact paths below will depend on the compiler
+chain downloaded.
+
+	~~~
+	C:\ti> set PATH=%PATH%;C:\Program Files\mingw-w64\x86_64-6.3.0-posix-seh-rt_v5-rev1\mingw64\bin
+
+	C:\ti> mingw32-make --version
+	GNU Make 4.1
+	Built for x86_64-w64-mingw32
+	Copyright (C) 1988-2014 Free Software Foundation, Inc.
+	License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+	This is free software: you are free to change and redistribute it.
+	There is NO WARRANTY, to the extent permitted by law.
+
+	C:\ti> gcc --version
+	gcc (x86_64-posix-seh-rev1, Built by MinGW-W64 project) 6.3.0
+	Copyright (C) 2016 Free Software Foundation, Inc.
+	This is free software; see the source for copying conditions.  There is NO
+	warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+	~~~
+	
+	If you face issues with running `mingw32-make` or `gcc`, try running
+	`mingw32-make.exe` or `gcc.exe` instead. You could also append `.EXE` to
+	the `PATHEXT` enviroment variable.
 
 6. Run the below command to build the tool.
 
     ~~~
     mingw32-make -f Makefile.win
     ~~~
+	
+	The make file is setup to link the 64 bit version of libusb. If you are
+	using a 32 bit tool chain, please modify the linker arguments in the
+	makefile appropriately.
 
 USB Driver setup
 ----------------
@@ -156,8 +194,24 @@ value after `:` on the first line is a dont care when transferring MLO
 from PC. Please note that the binary to be supplied is
 `u-boot-spl.bin` and not `MLO`.
 
-Run the `bootswitch.exe` binary, reboot the EVM and observe it booting
-with the first stage boot loader binary supplied.
+Run the `bootswitch.exe` binary, reboot the EVM and observe it booting with
+the first stage boot loader binary supplied. Below are the contents of the log
+file `C:\temp\bootswitch_log.txt` on a successful boot.
+
+~~~
+Opened C:\temp\bootsetting.txt
+Per boot is 1
+Boot mode is 5
+MLO name C:\u-boot\spl\u-boot-spl.bin
+Opened device
+kernel driver active
+claimed interface 0
+MLO len is 113248 bytes:0x0001ba60
+Setting peripheral boot mode successful
+Setting MLO length successful
+Transferring MLO successful 10848/113248
+Transferring MLO successful 0/113248
+~~~
 
 Important points
 ----------------
