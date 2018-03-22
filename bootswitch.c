@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
 	int r;
 	unsigned int data = 0xF0030006;
 	int count = 0;
-	int boot_mode;
+	int boot_mode = 0;
 	int per_boot = 0;
 	char *boot_str;
 	FILE *fp_mlo;
@@ -197,7 +197,8 @@ int main(int argc, char *argv[])
 		fp_log = stderr;
 	}
 
-	get_boot_mode(&per_boot, &boot_mode, mlo_name);
+	if (per_boot == 0)
+		get_boot_mode(&per_boot, &boot_mode, mlo_name);
 	fprintf(fp_log,"Per boot is %d\nBoot mode is %d\n",per_boot, boot_mode);
 	fprintf(fp_log,"MLO name %s\n",mlo_name);
 
@@ -225,7 +226,7 @@ int main(int argc, char *argv[])
 		if (devh == NULL)
 			sleep(1);
 	} while ((i < MAX_RETRIES) && (devh == NULL));
-    
+
 	if(devh == NULL)
 		goto cleanup;
 
